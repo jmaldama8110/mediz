@@ -1,0 +1,11 @@
+.contenedor {
+    width: 100%;
+    padding: 1em;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid gray;
+    border-radius: 10px;
+    min-height: 250px;
+}

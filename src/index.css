@@ -59,6 +59,15 @@ html {
     transform: translateY(1px);
   }
   
+  .border-error {
+    background: #f44250;
+  }
+
+  .records-container {
+    border: 1px solid black;
+    padding: 1em;
+  }
+
   #contact h1 {
     display: flex;
     align-items: flex-start;
@@ -111,6 +120,7 @@ html {
     border-right: solid 1px #e3e3e3;
     display: flex;
     flex-direction: column;
+   
   }
   
   #sidebar > * {

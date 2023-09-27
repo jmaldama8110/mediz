@@ -1,13 +1,114 @@
+import { Form, useFetcher, useLoaderData } from "react-router-dom";
+import { PatientDocument } from "../../models/Patient";
+import { db, remoteDB } from "../../db/couchdb";
+import { iDocumentGetResponse } from "../../models/PouchDbModels";
+import avatarImg from "../../assets/avatar.svg";
 
+export async function loader ( { params }:any){
 
+  const patient = new PatientDocument();
 
+  try {
+    const response: iDocumentGetResponse = await db.get(params.patientId);
+    patient.processPatientGetDocument(response);
+    return { patient };
+  }
+  catch(e){
+    throw new Response("",{
+      status: 404,
+      statusText: "No se encontro el dato!"
+    })
+    
+  }
+  
+}
+
+export async function action( {request, params}:any){
+  let formData = await request.formData();
+  const getResp = await db.get(params.patientId);
+     
+  const patient = new PatientDocument();
+  patient.processGetDocument(getResp);
+  
+  await db.put( {...getResp, highlight: formData.get("highlight") === "true" })
+  await db.replicate.to(remoteDB);
+
+  return { patient }
+}
 export default function Patient(){
 
+    const { patient }:any = useLoaderData();
     return (
-        <>
-            <h1>Detalle del paciente</h1>
-            <p>Anim quis cillum proident dolor ad aliquip laboris nulla nostrud ullamco. Officia non anim adipisicing dolore eiusmod anim. Duis excepteur consectetur sunt fugiat nostrud ex non deserunt ea nisi nisi esse et. Irure qui pariatur enim minim Lorem incididunt. Ullamco fugiat culpa proident deserunt fugiat amet adipisicing labore.
-                aliqua ea irure id aute esse ipsum non qui. Anim incididunt magna quis veniam culpa sit ipsum aliqua enim consequat. Incididunt amet nisi nostrud in nulla deserunt minim exercitation exercitation pariatur ullamco excepteur. Fugiat id proident do et dolor. Cillum proident cillum qui in voluptate.</p>
-        </>
-    );
-}
+        
+        <div id="contact">
+          <div>
+            <img
+              key={`${patient._id}`}
+              src={avatarImg}
+            />
+          </div>
+    
+          <div>
+            <h1>
+              {patient.name || patient.lastname ? (
+                <>
+                  {patient.name} {patient.lastname}
+                </>
+              ) : (
+                <i>Anónimo</i>
+              )}{" "}
+              <Favorite patient = {patient} />
+            </h1>
+    
+            { patient.service && <p>{patient.service}</p>}
+    
+            <div>
+              <Form action="edit">
+                <button type="submit">Editar</button>
+              </Form>
+              <Form
+                method="post"
+                action="destroy"
+                onSubmit={(event:any) => {
+                  if (
+                    !confirm(`Esta acción deshabilitará el registro de ${patient.name} ${patient.lastname}: ¿Seguro que de continuar?`)
+                  ) {
+                    event.preventDefault();
+                  }
+                }}
+              >
+                <button type="submit">Desactivar</button>
+              </Form>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    
+    function Favorite({ patient }:any) {
+      // yes, this is a `let` for later
+      let highlight = patient.highlight;
+      const fetcher = useFetcher();
+
+      if( fetcher.formData ){
+        highlight = fetcher.formData.get("highlight") === 'true';
+      }
+
+      return (
+        <fetcher.Form method="post">
+          
+          <button
+            name="highlight"
+            value={highlight ? "false" : "true"}
+            aria-label={
+              highlight
+                ? "Remove from favorites"
+                : "Add to favorites"
+            }
+          >
+            {highlight ? "★" : "☆"}
+            
+          </button>
+        </fetcher.Form>
+      );
+    }
