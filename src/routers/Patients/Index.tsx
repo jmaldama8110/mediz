@@ -6,10 +6,7 @@ export default function Index() {
         Modulo de Pacientes.
         <br />
         Consulta aquí mas información sobre esta herramienta en {" "}
-        <Link to="https://aristanetworks.cloud" target="_blank">
-            ANET Cloud
-        </Link>
-        .
+        <Link to="https://aristanetworks.cloud" target="_blank"> ANET Cloud</Link>.
       </p>
     );
   }

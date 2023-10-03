@@ -69,8 +69,8 @@ export const PatientsHome = () => {
 
   return (
 
-    <>
-      <div id="sidebar">
+    <div className="full-content">
+      <div className="sidebar">
       
         <h1>Pacientes</h1>
         
@@ -87,7 +87,7 @@ export const PatientsHome = () => {
               onChange={onSearchInputChange}
               className={searching ? "loading" : ""}
             />
-            <div id="search-spinner" aria-hidden hidden={!searching} />
+            <div className="search-spinner" aria-hidden hidden={!searching} />
             <div className="sr-only" aria-live="polite"></div>
           </Form>
 
@@ -122,11 +122,11 @@ export const PatientsHome = () => {
         </nav>
         
       </div>
-      <div id="detail" className={ navigation.state === "loading" ? "loading" : ""}>
+      <div className={ navigation.state === "loading" ? "detail loading" : "detail"}>
         {/* {navigation.state === "loading" ? <span className="loader"></span> : <Outlet/> } */}
         <Outlet />
       </div>
       
-    </>
+    </div>
   );
 };

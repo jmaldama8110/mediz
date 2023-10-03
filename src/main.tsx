@@ -1,62 +1,121 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { fakeAuthProvider } from './auth';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { fakeAuthProvider } from "./auth";
 
-import './index.css'
-import './components/Loader.css';
-import './components/LogoAnimated.css';
+import "./index.css";
+import "./components/Loader.css";
+import "./components/LogoAnimated.css";
+import "./routers/Patients/Patient.css";
 
-import { Link, Navigate, Outlet, Route, RouterProvider, createBrowserRouter, createRoutesFromElements, useLocation, useNavigate } from "react-router-dom";
-import ErrorPage from './error-page';
-import Menu from './Menu';
-import UsersHomes from './pages/Users/UsersHome';
-import { PatientsHome } from './routers/Patients/PatientsHome';
-import Patient from './routers/Patients/Patient';
+import {
+  Link,
+  Navigate,
+  Outlet,
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import ErrorPage from "./error-page";
+import Menu from "./Menu";
+import UsersHomes from "./pages/Users/UsersHome";
+import { PatientsHome } from "./routers/Patients/PatientsHome";
+import Patient from "./routers/Patients/Patient";
 
-import { loader as patientsLoader, action as patientsAction } from './routers/Patients/PatientsHome';
-import { loader as patientLoader, action as patientFavoriteAction} from './routers/Patients/Patient';
-import { action as patientDestroyAction} from './routers/Patients/PatientDestroy';
-import PatientEdit,{action as patientEditAction} from './routers/Patients/PatientEdit';
-import Index from './routers/Patients/Index';
+import {
+  loader as patientsLoader,
+  action as patientsAction,
+} from "./routers/Patients/PatientsHome";
+import {
+  loader as patientLoader,
+  action as patientFavoriteAction,
+} from "./routers/Patients/Patient";
+import { action as patientDestroyAction } from "./routers/Patients/PatientDestroy";
+import PatientEdit, {
+  action as patientEditAction,
+} from "./routers/Patients/PatientEdit";
+import Index from "./routers/Patients/Index";
+import { NotesHome } from "./routers/Patients/Notes/NotesHome";
+import { HistoryHome } from "./routers/Patients/History/HistoryHome";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-     <Route errorElement={<ErrorPage/>}>
-          <Route element={<HomeLayout />} >
-            <Route path="/" element={<HomeLandingPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={ <RequireAuth><Menu/></RequireAuth> } />
-            <Route path="/users" element={ <RequireAuth><UsersHomes/></RequireAuth> } />
-          </Route>
+    <Route errorElement={<ErrorPage />}>
+      <Route element={<HomeLayout />}>
+        <Route path="/" element={<HomeLandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <RequireAuth>
+              <Menu />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <RequireAuth>
+              <UsersHomes />
+            </RequireAuth>
+          }
+        />
+      </Route>
 
-          <Route element={<PatientsHome/>} path="/patients" loader={patientsLoader} action={patientsAction}  >
-            <Route errorElement={<ErrorPage />}>
-              <Route index={true} element={<Index />}/>
-              <Route element={<Patient/>} path='/patients/:patientId' loader={patientLoader} action={patientFavoriteAction} />
-              <Route element={<PatientEdit/>} path='/patients/:patientId/edit' loader={patientLoader} action={patientEditAction} />
-              <Route path='/patients/:patientId/destroy' action={patientDestroyAction} />
-            </Route>
-          </Route>
+      <Route
+        element={<PatientsHome />}
+        path="/patients"
+        loader={patientsLoader}
+        action={patientsAction}
+      >
+        <Route errorElement={<ErrorPage />}>
+          <Route index={true} element={<Index />} />
+          <Route
+            element={<Patient />}
+            path="/patients/:patientId"
+            loader={patientLoader}
+            action={patientFavoriteAction}
+          />
+          <Route
+            element={<PatientEdit />}
+            path="/patients/:patientId/edit"
+            loader={patientLoader}
+            action={patientEditAction}
+          />
+          <Route
+            path="/patients/:patientId/destroy"
+            action={patientDestroyAction}
+          />
+          <Route
+            path="/patients/:patientId/notes"
+            element={ <NotesHome />}
+          />
+          <Route 
+            path="/patients/:patientId/history"
+            element={ <HistoryHome />}
+          />
+        </Route>
+
+      </Route>
     </Route>
   )
+);
 
-)
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router ={router} />
+      <RouterProvider router={router} />
     </AuthProvider>
-  </React.StrictMode>,
-)
-
+  </React.StrictMode>
+);
 
 function HomeLayout() {
   return (
     <div>
       <AuthStatus />
       <Outlet />
-
     </div>
   );
 }
@@ -100,7 +159,11 @@ function AuthStatus() {
   let navigate = useNavigate();
 
   if (!auth.user) {
-    return <p>Inicia tu sesion, <Link to="/login">aqui:</Link></p>;
+    return (
+      <p>
+        Inicia tu sesion, <Link to="/login">aqui:</Link>
+      </p>
+    );
   }
 
   return (
@@ -157,14 +220,25 @@ function LoginPage() {
   }
 
   return (
-    <div>
-      <p>Ingresa tus credeciales para continuar</p>
-
+    <div className="content">
+      <h1>Ingresa tus credeciales para continuar</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Usuario: <input name="username" type="text" />
-        </label>{" "}
-        <button type="submit">Iniciar</button>
+        <div className="form-section">
+          <div className="form-input">
+            <label>Usuario:</label>
+            <input name="username" type="text" />
+          </div>
+
+          <div className="form-input">
+            <label>Contraseña:</label>
+            <input name="username" type="password" />
+          </div>
+
+          <div className="form-actions">
+            <button type="submit">Iniciar</button>
+            <Link to="/">Solicitar ayuda</Link>
+          </div>
+        </div>
       </form>
     </div>
   );
@@ -178,4 +252,3 @@ function HomeLandingPage() {
     </>
   );
 }
-

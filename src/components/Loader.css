@@ -2,9 +2,8 @@
 
 
 .loader {
-  
-  width: 100px;
-  height: 100px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: inline-block;
   position: relative;
@@ -12,8 +11,8 @@
   border-color: gray gray transparent transparent;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-  left: 45%;
-  top: 45%
+  left: 0em;
+  top: 0em;
 }
 .loader::after,
 .loader::before {
@@ -27,16 +26,16 @@
   margin: auto;
   border: 3px solid;
   border-color: transparent transparent #FF3D00 #FF3D00;
-  width: 92px;
-  height: 92px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   box-sizing: border-box;
   animation: rotationBack 0.5s linear infinite;
   transform-origin: center center;
 }
 .loader::before {
-  width: 84px;
-  height: 84px;
+  width: 14px;
+  height: 14px;
   border-color: gray gray transparent transparent;
   animation: rotation 1.5s linear infinite;
 }

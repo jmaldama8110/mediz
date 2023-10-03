@@ -6,6 +6,7 @@ export default function Menu () {
             <li><Link to='/config'>Configuracion</Link></li>
             <li><Link to='/users'>Usuarios</Link></li>
             <li><Link to='/patients'>Pacientes</Link></li>
+            
         </nav>
     );
 }

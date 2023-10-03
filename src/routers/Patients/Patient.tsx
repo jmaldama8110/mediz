@@ -40,14 +40,7 @@ export default function Patient(){
     const { patient }:any = useLoaderData();
     return (
         
-        <div id="contact">
-          <div>
-            <img
-              key={`${patient._id}`}
-              src={avatarImg}
-            />
-          </div>
-    
+        <div className="contact">  
           <div>
             <h1>
               {patient.name || patient.lastname ? (
@@ -66,6 +59,15 @@ export default function Patient(){
               <Form action="edit">
                 <button type="submit">Editar</button>
               </Form>
+              
+              <Form action="notes">
+                <button type="submit">Notas Médicas</button>
+              </Form>
+
+              <Form action="history">
+                <button type="submit">Historia</button>
+              </Form>
+
               <Form
                 method="post"
                 action="destroy"
@@ -85,7 +87,7 @@ export default function Patient(){
       );
     }
     
-    function Favorite({ patient }:any) {
+    function Favorite( { patient }:any ) {
       // yes, this is a `let` for later
       let highlight = patient.highlight;
       const fetcher = useFetcher();

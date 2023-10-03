@@ -4,6 +4,7 @@ export function validateDateString(dateString:string){
 }
 
 export function validateDateInFuture (dateString: string){
+    // date string format DD-MM-YYYY
     const dateStr = dateString.split("-");
 
     /// not valid dateStr string
@@ -15,4 +16,11 @@ export function validateDateInFuture (dateString: string){
     
     return ( currentDate.getTime() > newDate.getTime() )
     
-}   
+}
+export function timeToDate( timeT: number){    
+    const event = new Date(timeT);
+    const options: Intl.DateTimeFormatOptions = { weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', hour:'numeric',minute:'numeric' };
+
+    return event.toLocaleDateString('es-MX', options);
+// Expected output (varies according to local timezone): Donnerstag, 20. Dezember 2012
+}
