@@ -2,7 +2,7 @@ import { Form, useFetcher, useLoaderData } from "react-router-dom";
 import { PatientDocument } from "../../models/Patient";
 import { db, remoteDB } from "../../db/couchdb";
 import { iDocumentGetResponse } from "../../models/PouchDbModels";
-import avatarImg from "../../assets/avatar.svg";
+
 
 export async function loader ( { params }:any){
 
@@ -65,7 +65,7 @@ export default function Patient(){
               </Form>
 
               <Form action="history">
-                <button type="submit">Historia</button>
+                <button type="submit">Historia Clínica</button>
               </Form>
 
               <Form

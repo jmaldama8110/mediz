@@ -40,6 +40,10 @@ import Index from "./routers/Patients/Index";
 import { NotesHome } from "./routers/Patients/Notes/NotesHome";
 import { HistoryHome } from "./routers/Patients/History/HistoryHome";
 
+import { loader as loaderPatientNotes, action as actionPatientNotes } from './routers/Patients/Notes/NotesHome';
+import { loader as loaderPatientHistory } from './routers/Patients/History/HistoryHome';
+import { AppContextProvider } from "./store/Store";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route errorElement={<ErrorPage />}>
@@ -91,10 +95,14 @@ const router = createBrowserRouter(
           <Route
             path="/patients/:patientId/notes"
             element={ <NotesHome />}
+            loader={loaderPatientNotes}
+            action={actionPatientNotes}
+
           />
           <Route 
             path="/patients/:patientId/history"
-            element={ <HistoryHome />}
+            element={ <AppContextProvider><HistoryHome /></AppContextProvider>}
+            loader={ loaderPatientHistory}
           />
         </Route>
 

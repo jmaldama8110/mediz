@@ -294,14 +294,40 @@ html {
     width: 100%;
   }
 
-/*   
-  .border-error {
-    background: #f44250;
+  .accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    /* margin: 1em 0 1em 0; */
+    width: 100%;
+    text-align: left;
+    outline: none;
+    transition: 0.4s;
+  }
+  .accordion:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
   }
 
-  .records-container {
-    border: 1px solid black;
-    padding: 1em;
+  .activated, .accordion:hover {
+    background-color: #ccc;
+  }
+  .activated:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
   }
 
-   */
+  .panel {
+    margin: 1em;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+
+
+  
+  

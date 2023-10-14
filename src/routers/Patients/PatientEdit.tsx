@@ -344,8 +344,8 @@ export default function PatientEdit() {
         </p>
       </Form>
 
-      <h1>Diagnostico</h1>
-      {patient.diagnostic.map((i: DiagnosticsObject, n: number) => (
+      <h1>Diagnóstico</h1>
+      {patient.diagnostic.map((i: DiagnosticsObject) => (
         <fetcher.Form
           method="post"
           key={`form-${i.created_at}`}
